@@ -136,7 +136,20 @@ async function getFeedback(index, sentence) {
     conversationHistory.length = 0; // Clear the previous history
     // Add user's translation to the conversation history
     conversationHistory.push({ role: "user", content: `Source sentence: ${sentence}` });
-    const prompt = `The following sentence needs to be convert into English. Do not use the direct translation. Please find the sentence that people used in the movie that gives the same meaning. Also, if you can use the commonly used sentence strucutre or vocabulary in daily life, then use it. If you can not find exact sentence, then find  the good sentence structure, change its noun or verb to achive the goal. Try to give the result as concise setence as possible. If you can express the meaning in 3 words, then do not do 4. The resulting sentence should be as concise as possible. Also, some of the sentence maybe question, or narrative. Please figure it out and given the result base on the context. Please provide the English sentence that best translates the meaning:\n\nSource Text: "${sentence}"\nTranslation: "${translation}"\n\n.`;
+    const prompt  = `
+    You need to provide feedback on the user's translation. If it doesn't sound like something a native speaker would say in daily life, or if it's long-winded, provide a better sentence. Your task is to find a sentence that a native speaker or movie character would use daily, conveying a similar meaning to the source sentence. If an exact match can't be found, adapt a similar sentence by changing nouns to fit the context. Keep the result as concise a sentence as possible. If you can express the meaning in 3 words, don't use 4.
+    
+    Source Text: "${sentence}"
+    User Provided Translation: "${translation}"
+    
+    Please provide the result in this exact format with each item on a separate line:
+    
+    Source Sentence: "source sentence"
+    User Provided Translation: "user provided translation"
+    Feedback: "feedback"
+    AI Suggestion: "AI suggestion"
+    `
+    
     
     const url = 'https://api.openai.com/v1/chat/completions';
 
@@ -235,9 +248,26 @@ function updateConversationDisplay(conversationHistory) {
     conversationContainer.innerHTML = '';
 
     conversationHistory.forEach(message => {
-        const messageElement = document.createElement('p');
-        messageElement.textContent = `${message.role === 'user' ? 'You' : 'AI'}: ${message.content}`;
-        conversationContainer.appendChild(messageElement);
+        // Split the message content by line breaks to preserve formatting
+        const lines = message.content.split('\n');
+        lines.forEach(line => {
+            const messageElement = document.createElement('p');
+            
+            // Apply bold formatting to specific headers
+            if (line.startsWith('Source Sentence:')) {
+                messageElement.innerHTML = `<strong>Source sentence:</strong> ${line.replace('Source Sentence:', '').trim()}`;
+            } else if (line.startsWith('User Provided Translation:')) {
+                messageElement.innerHTML = `<strong>User Provided Translation:</strong> ${line.replace('User Provided Translation:', '').trim()}`;
+            } else if (line.startsWith('Feedback:')) {
+                messageElement.innerHTML = `<strong>Feedback:</strong> ${line.replace('Feedback:', '').trim()}`;
+            } else if (line.startsWith('AI Suggestion:')) {
+                messageElement.innerHTML = `<strong>AI Suggestion:</strong> ${line.replace('AI Suggestion:', '').trim()}`;
+            } else {
+                messageElement.textContent = line;
+            }
+
+            conversationContainer.appendChild(messageElement);
+        });
     });
 
     // Make the conversation container scrollable if content exceeds the container's height

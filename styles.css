@@ -1,0 +1,119 @@
+/* styles.css */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    margin-top: 20px;
+}
+
+.input-container {
+    margin: 20px 0;
+    text-align: center;
+}
+
+#flashcards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    max-width: 800px;
+}
+
+.flashcard {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 350px;
+    margin: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+    transition: transform 0.2s ease-in-out;
+}
+
+.flashcard:hover {
+    transform: scale(1.05);
+}
+
+.flashcard .content-container {
+    width: 100%;
+    max-height: 400px; /* Set a max height */
+    overflow-y: auto; /* Make it scrollable if content exceeds max height */
+}
+
+.flashcard p {
+    margin: 10px 0;
+    width: 100%;
+    word-wrap: break-word;
+}
+
+.flashcard input {
+    margin: 10px 0;
+    padding: 10px;
+    width: 100%;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.flashcard button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    border: none;
+    background-color: #3e4eb8;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.flashcard button:hover {
+    background-color: #2c3a8c;
+}
+
+.conversation-container {
+    width: 100%;
+    max-height: 150px;
+    overflow-y: auto; /* Scrollable */
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+    margin-top: 10px;
+}
+
+.follow-up-container {
+    margin-top: 10px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.follow-up-container input {
+    margin-bottom: 10px;
+    padding: 8px;
+    width: 90%;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.follow-up-container button {
+    padding: 8px 16px;
+    border: none;
+    background-color: #3e4eb8;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.follow-up-container button:hover {
+    background-color: #2c3a8c;
+}

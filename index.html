@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcard Translator PWA</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Flashcard Translator</h1>
+
+    <!-- Section for OpenAI API Key -->
+    <div class="input-container">
+        <label for="apiKey">Enter OpenAI API Key:</label>
+        <input type="password" id="apiKey" placeholder="API Key">
+        <button onclick="saveApiKey()">Save Key</button>
+    </div>
+
+    <!-- Toggle between file upload and text input -->
+    <div class="toggle-container">
+        <label>
+            <input type="radio" name="input-type" value="file" checked onchange="toggleInputMethod()"> Upload File
+        </label>
+        <label>
+            <input type="radio" name="input-type" value="manual" onchange="toggleInputMethod()"> Enter Text
+        </label>
+    </div>
+
+    <!-- File Upload Section -->
+    <div id="file-input-section">
+        <label for="chatFile">Upload Chat Conversation:</label>
+        <input type="file" id="chatFile">
+        <button onclick="processChat()">Process Chat</button>
+    </div>
+
+    <!-- Manual Text Input Section -->
+    <div id="manual-input-section" style="display:none;">
+        <textarea id="manualTextInput" placeholder="Enter text here..."></textarea>
+        <button onclick="processManualText()">Process Text</button>
+    </div>
+
+    <!-- Section for Displaying Flashcards -->
+    <div id="flashcards-container"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>

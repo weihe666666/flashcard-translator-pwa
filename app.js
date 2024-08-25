@@ -123,8 +123,10 @@ function generateFlashcard(sentence) {
 }
 
 // Get AI Feedback
+// Get AI Feedback
 async function getFeedback(index, sentence) {
-    const translation = document.getElementById('translation').value;
+    const translationInput = document.getElementById('translation');
+    const translation = translationInput.value;
     const apiKey = getApiKey();
     let conversationHistory = conversationHistories[index]; // Retrieve the history for this flashcard
     
@@ -136,20 +138,18 @@ async function getFeedback(index, sentence) {
     conversationHistory.length = 0; // Clear the previous history
     // Add user's translation to the conversation history
     conversationHistory.push({ role: "user", content: `Source sentence: ${sentence}` });
-    const prompt  = `
-    You need to provide feedback on the user's translation. If it doesn't sound like something a native speaker would say in daily life, or if it's long-winded, provide a better sentence. Your task is to find a sentence that a native speaker or movie character would use daily, conveying a similar meaning to the source sentence. If an exact match can't be found, adapt a similar sentence by changing nouns to fit the context. Keep the result as concise a sentence as possible. If you can express the meaning in 3 words, don't use 4.
+    const prompt = `
+    You need to give the feedback on the user-provided translation. If it doesn't sound like a sentence that a native speaker would say in daily life, or if it's long-winded, you need to provide a better sentence. Make sure it has natural flow and rhythm. You need to find a sentence that a native speaker or movie character would use daily that gives a similar meaning to the source sentence. If you cannot find an exact sentence, then find a good sentence and change its noun to achieve the goal. Try to give the result as concise a sentence as possible. If you can express the meaning in 3 words, then do not use 4.
     
     Source Text: "${sentence}"
     User Provided Translation: "${translation}"
     
-    Please provide the result in this exact format with each item on a separate line:
-    
-    Source Sentence: "source sentence"
-    User Provided Translation: "user provided translation"
-    Feedback: "feedback"
+    Please provide the result in the format of:
+    Source Sentence: "source sentence"\n
+    User Provided Translation: "user provided translation"\n
+    Feedback: "feedback"\n
     AI Suggestion: "AI suggestion"
     `
-    
     
     const url = 'https://api.openai.com/v1/chat/completions';
 
@@ -159,7 +159,7 @@ async function getFeedback(index, sentence) {
     };
 
     const data = {
-        model: "gpt-4",
+        model: "gpt-4o-mini",
         messages: [
             { role: "system", content: "You are a helpful assistant." },
             { role: "user", content: prompt },
@@ -183,6 +183,9 @@ async function getFeedback(index, sentence) {
 
         updateConversationDisplay(conversationHistory);
 
+        // Clear the input box after submission
+        translationInput.value = '';
+
         // Show the follow-up input field
         document.getElementById('follow-up').style.display = 'block';
     } catch (error) {
@@ -193,7 +196,8 @@ async function getFeedback(index, sentence) {
 
 // Ask Follow-Up Question
 async function askFollowUp(index, sentence) {
-    const followUpQuestion = document.getElementById('follow-up-input').value;
+    const followUpInput = document.getElementById('follow-up-input');
+    const followUpQuestion = followUpInput.value;
     const apiKey = getApiKey();
     const conversationHistory = conversationHistories[index]; // Retrieve the history for this flashcard
 
@@ -213,7 +217,7 @@ async function askFollowUp(index, sentence) {
     };
 
     const data = {
-        model: "gpt-4",
+        model: "gpt-4o-mini",
         messages: [
             { role: "system", content: "You are a helpful assistant." },
             { role: "user", content: `Follow-up question based on the previous feedback: "${followUpQuestion}". The original sentence was "${sentence}".` },
@@ -236,11 +240,15 @@ async function askFollowUp(index, sentence) {
         conversationHistory.push({ role: "assistant", content: completion.choices[0].message.content });
 
         updateConversationDisplay(conversationHistory);
+
+        // Clear the input box after submission
+        followUpInput.value = '';
     } catch (error) {
         console.error('Error fetching follow-up response:', error);
         document.getElementById('conversation').innerText = "Error: Unable to retrieve follow-up response. Please try again later.";
     }
 }
+
 
 // Update the conversation display
 function updateConversationDisplay(conversationHistory) {

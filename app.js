@@ -137,7 +137,7 @@ async function getFeedback(index, sentence) {
     conversationHistory.length = 0; // Clear the previous history
     // Add user's translation to the conversation history
     conversationHistory.push({ role: "user", content: `Source sentence: ${sentence}` });
-    const prompt = `The following sentence needs to be translated into English as it might appear in a movie. Please provide the English sentence that best translates the meaning:\n\nSource Text: "${sentence}"\nTranslation: "${translation}"\n\nProvide the best movie-like translation for this sentence.`;
+    const prompt = `The following sentence needs to be convert into English. Do not use the direct translation. Please find the sentence that people used in the movie that gives the same meaning. If you can not find exact sentence, then find  the good sentence structure, change its noun or verb to achive the goal. The resulting sentence should be as concise as possible. Please provide the English sentence that best translates the meaning:\n\nSource Text: "${sentence}"\nTranslation: "${translation}"\n\nProvide the best movie-like translation for this sentence.`;
     
     const url = 'https://api.openai.com/v1/chat/completions';
 

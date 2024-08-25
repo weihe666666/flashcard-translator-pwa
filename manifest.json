@@ -1,15 +1,20 @@
 {
-  "name": "Flashcard Translator",
-  "short_name": "Translator",
-  "start_url": ".",
+  "name": "My Chat App",
+  "short_name": "ChatApp",
+  "description": "A Progressive Web App for Chatting.",
+  "start_url": "/index.html",
   "display": "standalone",
-  "background_color": "#f4f4f4",
+  "background_color": "#ffffff",
   "theme_color": "#3e4eb8",
-  "description": "A PWA to turn chat conversations into flashcards and get AI translation feedback.",
   "icons": [
     {
-      "src": "icon.png",
+      "src": "/assets/icon-192x192.png",
       "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/icon-512x512.png",
+      "sizes": "512x512",
       "type": "image/png"
     }
   ]
